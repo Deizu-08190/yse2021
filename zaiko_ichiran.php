@@ -19,6 +19,7 @@ if (/* ②の処理を書く */){
 }
 
 //⑤データベースへ接続し、接続情報を変数に保存する
+$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
 
 //⑥データベースで使用する文字コードを「UTF8」にする
 
@@ -91,7 +92,7 @@ if (/* ②の処理を書く */){
 							echo "<td id='author'>/* ⑮authorを表示する */</td>";
 							echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
 							echo "<td id='price'>/* ⑰priceを表示する */</td>";
-							echo "<td id='stock'>/* ⑱stockを表示する */</td>";
+							echo "<td id='stock'>/* & stock */</td>";
 
 							echo "</tr>";
 						}
