@@ -21,6 +21,7 @@ if (/* ②の処理を書く */){
 //⑤データベースへ接続し、接続情報を変数に保存する
 
 //⑥データベースで使用する文字コードを「UTF8」にする
+mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
 $query=$pdo->prepare('SELECT * FROM books');
@@ -91,7 +92,7 @@ $result=$query->fetchAll();
 							echo "<tr id='book'>";
 							echo "<td id='check'><input type='checkbox' name='books[]'value="./* ⑫IDを設定する */."></td>";
 							echo "<td id='id'>/* ⑬IDを表示する */</td>";
-							echo "<td id='title'>/* ⑭titleを表示する */</td>";
+							echo "<td id='title'>/* $title */</td>";
 							echo "<td id='author'>/*$author*/</td>";
 							echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
 							echo "<td id='price'>/* ⑰priceを表示する */</td>";
