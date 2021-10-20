@@ -92,7 +92,7 @@ $pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユー�
 							echo "<td id='author'>/* ⑮authorを表示する */</td>";
 							echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
 							echo "<td id='price'>/* ⑰priceを表示する */</td>";
-							echo "<td id='stock'>/*  & stock */</td>";
+							echo "<td id='stock'>/* & stock */</td>";
 
 							echo "</tr>";
 						}
