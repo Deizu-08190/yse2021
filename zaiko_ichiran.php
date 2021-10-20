@@ -11,6 +11,7 @@
 */
 
 //①セッションを開始する
+session_start ()
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 if (/* ②の処理を書く */){
@@ -19,6 +20,7 @@ if (/* ②の処理を書く */){
 }
 
 //⑤データベースへ接続し、接続情報を変数に保存する
+$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
 
 //⑥データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
@@ -90,13 +92,13 @@ $result=$query->fetchAll();
 							//⑪extract変数を使用し、1レコードのデータを渡す。
 
 							echo "<tr id='book'>";
-							echo "<td id='check'><input type='checkbox' name='books[]'value="./* ⑫IDを設定する */."></td>";
-							echo "<td id='id'>/* ⑬IDを表示する */</td>";
+							echo "<td id='check'><input type='checkbox' name='books[]'value=".$id=$result->GetID()/* ⑫IDを設定する */."></td>";
+							echo "<td id='id'>$ID/* ⑬IDを表示する */</td>";
 							echo "<td id='title'>/* $title */</td>";
 							echo "<td id='author'>/*$author*/</td>";
 							echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
 							echo "<td id='price'>/* ⑰priceを表示する */</td>";
-							echo "<td id='stock'>/* ⑱stockを表示する */</td>";
+							echo "<td id='stock'>/* & stock */</td>";
 
 							echo "</tr>";
 						}
