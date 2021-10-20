@@ -41,8 +41,12 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$query=$con->prepare('SELECT * FROM books WHERE id=:id');
+	$con->bindValue(':id',$id,PDO::PARAM_INT);
+	$query->execute();
+	
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
+	return $query->fetch();
 }
 
 ?>
