@@ -28,6 +28,7 @@ if (/* ③の処理を書く */){
 //⑥データベースへ接続し、接続情報を変数に保存する
 
 //⑦データベースで使用する文字コードを「UTF8」にする
+mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(/* ⑧の処理を行う */){
@@ -41,8 +42,12 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$query=$con->prepare('SELECT * FROM books WHERE id=:id');
+	$con->bindValue(':id',$id,PDO::PARAM_INT);
+	$query->execute();
+	
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
+	return $query->fetch();
 }
 
 ?>

@@ -26,6 +26,7 @@ if (/* ③の処理を書く */){
 //⑥データベースへ接続し、接続情報を変数に保存する
 
 //⑦データベースで使用する文字コードを「UTF8」にする
+mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(/* ⑧の処理を行う */){
@@ -101,9 +102,9 @@ function getId($id,$con){
 				?>
 				<input type="hidden" value="<?php echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 				<tr>
-					<td><?php echo	/* ⑱ ⑯の戻り値からidを取り出し、表示する */;?></td>
-					<td><?php echo	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
-					<td><?php echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */;?></td>
+					<td><?php echo	/* ⑱ ⑯の戻り値からidを取り出し、表示する *//*$return->id*/;?></td>
+					<td><?php echo	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する *//* $return->title*/ */;?></td>
+					<td><?php echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する *//* $return->author*/ */;?></td>
 					<td><?php echo	/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */;?></td>
 					<td><?php echo	/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */;?></td>
 					<td><?php echo	/* ㉓ ⑯の戻り値からstockを取り出し、表示する */;?></td>
