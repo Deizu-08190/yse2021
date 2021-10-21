@@ -98,7 +98,7 @@ function getId($id,$con){
 				 */
 				foreach($books as $book){
 					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
-				$bookId = getId($book,/*DBの接続情報.*/);
+					$bookId = getId($book,/*DBの接続情報.*/);
 				?>
 				<input type="hidden" value="<?php echo	$bookId['id'];?>" name="books[]">
 				<tr>
