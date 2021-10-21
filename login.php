@@ -49,17 +49,23 @@ if (isset($_POST['name'])) {		// ⑦の処理
 		$_SESSION['login'] = true;
 
 		//⑩在庫一覧画面へ遷移する
-		header(/* ⑩の遷移先を書く */);
+		header('Location: http://localhost/zaiko_ichiran.php');		// ←URL間違いは後日再確認
+		exit();
 	}else{
 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
 		$error_msg = 'ユーザー名かパスワードが間違っています';
 	}
 }
 
+// 以下(仮)
+
 //⑫SESSIONの「error2」に値が入っているか判定する。入っていた場合はif文の中に入る
-if (/* ⑫の処理を書く */) {
+if (isset($_SESSION['error2'])) {		// ⑫の処理
 	//⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
+	$error_msg = $_SESSION['error2'];
+
 	//⑭SESSIONの「error2」にnullを入れる。
+	$_SESSION['error2'] = NULL;
 }
 ?>
 
