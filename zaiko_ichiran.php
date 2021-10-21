@@ -99,13 +99,13 @@ $result=$query->fetchAll();
 							$records = extract($record);
 
 							echo "<tr id='book'>";
-							echo "<td id='check'><input type='checkbox' name='books[]'value=".$id=$result->GetID()/* ⑫IDを設定する */."></td>";
-							echo "<td id='id'>$ID/* ⑬IDを表示する */</td>";
+							echo "<td id='check'><input type='checkbox' name='books[]'value=".$id=$result->GetID()."></td>";
+							echo "<td id='id'>$ID</td>";
 							echo "<td id='title'>/* $title */</td>";
 							echo "<td id='author'>/*$author*/</td>";
-							echo "<td id='date'>/* ⑯salesDateを表示する */</td>";
+							echo "<td id='date'>$salesDate</td>";
 							echo "<td id='price'> {$records['itemPrice']} </td>";
-							echo "<td id='stock'>/* ⑱stockを表示する */</td>";
+
 							echo "</tr>";
 						}
 						?>
