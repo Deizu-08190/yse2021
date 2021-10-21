@@ -9,6 +9,7 @@
 */
 
 //①セッションを開始する
+session_start();
 
 function getByid($id,$con){
 	/* 
@@ -16,8 +17,11 @@ function getByid($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$sql = "SELECT * FROM books WHERE id =" .$id;
+	$result = $con->query($sql); 
+	
 	//③実行した結果から1レコード取得し、returnで値を返す。
+	return $result->fetch(PDO::FETCH_ASSOC);
 }
 
 function updateByid($id,$con,$total){
@@ -26,6 +30,16 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
+	//$sql = "UPDATE books SET stock = :stock WHERE id = :id ";
+	//$stmt = $con->prepare($sql);
+	//$total = array(':stock');
+	//$stmt->excute($total);
+
+	$sql = "SELECT * FROM books WHERE id =" .$id;
+	$result = $con->query($sql);
+	$total = $result->rowCount();
+
+	
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
@@ -37,8 +51,10 @@ if (/* ⑤の処理を書く */){
 //⑧データベースへ接続し、接続情報を変数に保存する
 
 //⑨データベースで使用する文字コードを「UTF8」にする
+mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
+$count=0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
 foreach(/* ⑪の処理を書く */){
@@ -60,11 +76,13 @@ foreach(/* ⑪の処理を書く */){
 	//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
 	if(/* ⑱の処理を行う */){
 		//⑲SESSIONの「error」に「出荷する個数が在庫数を超えています」と設定する。
+		$_SESSION['error'] = '出荷する個数が在庫数を超えています';
 		//⑳「include」を使用して「syukka.php」を呼び出す。
 		//㉑「exit」関数で処理を終了する。
 	}
 	
 	//㉒ ⑩で宣言した変数をインクリメントで値を1増やす。
+	$count++;
 }
 
 /*
@@ -111,6 +129,7 @@ if(/* ㉓の処理を書く */){
 				<tbody>
 					<?php 
 					//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
+					$shoseki = 0;
 
 					//㉝POSTの「books」から値を取得し、変数に設定する。
 					foreach(/* ㉝の処理を書く */){
@@ -125,6 +144,7 @@ if(/* ㉓の処理を書く */){
 					<input type="hidden" name="stock[]" value='<?php echo /* ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
 					<?php
 						//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
+						$shoseki++;
 					}
 					?>
 				</tbody>

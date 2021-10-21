@@ -26,9 +26,11 @@ $pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユー�
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
+
 $query=$pdo->prepare('SELECT * FROM books');
 $query->execute();
 $result=$query->fetchAll();
+
 
 ?>
 <!DOCTYPE html>
@@ -88,8 +90,13 @@ $result=$query->fetchAll();
 					<tbody>
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
-						while(/* ⑩の処理を書く */){
+						//foreach($result as $record){
+							//var_dump($record);
+						//}
+						//$record = ;
+						while($record = $result->fetch(PDO::FETCH_ASSOC)){
 							//⑪extract変数を使用し、1レコードのデータを渡す。
+							$records = extract($record);
 
 							echo "<tr id='book'>";
 							echo "<td id='check'><input type='checkbox' name='books[]'value=".$id=$result->GetID()."></td>";
@@ -97,8 +104,7 @@ $result=$query->fetchAll();
 							echo "<td id='title'>/* $title */</td>";
 							echo "<td id='author'>/*$author*/</td>";
 							echo "<td id='date'>$salesDate</td>";
-							echo "<td id='price'>/* ⑰priceを表示する */</td>";
-							echo "<td id='stock'>/* & stock */</td>";
+							echo "<td id='price'> {$records['itemPrice']} </td>";
 
 							echo "</tr>";
 						}
