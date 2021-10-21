@@ -57,7 +57,9 @@ mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 $count=0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
-foreach(/* ⑪の処理を書く */){
+$books=$_POST['books'];
+
+foreach($books as $book){
 	/*
 	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
 	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
