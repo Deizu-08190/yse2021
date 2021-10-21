@@ -8,16 +8,18 @@
 なし
 */
 
-//①セッションを開始する
+session_start();
 
-function getByid($id,$con){
+function getByid($id,$con){	
 	/* 
 	 * ②書籍を取得するSQLを作成する実行する。
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
+	$sql->execunte();
 	//③実行した結果から1レコード取得し、returnで値を返す。
+	return $sql->fetch();
 }
 
 function updateByid($id,$con,$total){
@@ -26,14 +28,16 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
+	$aql=$con->prepare('SELECT * FROM books WHERE id=:id');
+	$con->bindParam(':total',$total,PDO::PARAM_INT);
+	$sql->execute();
 }
-
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
+
 if (/* ⑤の処理を書く */){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑦ログイン画面へ遷移する。
 }
-
 //⑧データベースへ接続し、接続情報を変数に保存する
 
 //⑨データベースで使用する文字コードを「UTF8」にする
