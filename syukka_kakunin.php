@@ -76,6 +76,7 @@ foreach(/* ⑪の処理を書く */){
 	//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
 	if(/* ⑱の処理を行う */){
 		//⑲SESSIONの「error」に「出荷する個数が在庫数を超えています」と設定する。
+		$_SESSION['error'] = '出荷する個数が在庫数を超えています';
 		//⑳「include」を使用して「syukka.php」を呼び出す。
 		//㉑「exit」関数で処理を終了する。
 	}
@@ -143,7 +144,7 @@ if(/* ㉓の処理を書く */){
 					<input type="hidden" name="stock[]" value='<?php echo /* ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
 					<?php
 						//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
-						 echo $shoseki++;
+						$shoseki++;
 					}
 					?>
 				</tbody>

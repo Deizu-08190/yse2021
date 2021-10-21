@@ -84,6 +84,7 @@ if(/* ㉓の処理を書く */){
 	}
 
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
+	$_SESSION['success'] = '入荷が完了しました';
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
 }
 ?>
@@ -127,7 +128,7 @@ if(/* ㉓の処理を書く */){
 						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
-							echo $shoseki++;
+							$shoseki++;
 						}
 						?>
 					</tbody>
