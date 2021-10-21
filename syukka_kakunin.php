@@ -49,6 +49,7 @@ if (/* ⑤の処理を書く */){
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
+$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
 
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
