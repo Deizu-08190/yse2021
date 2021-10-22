@@ -1,4 +1,5 @@
 <?php
+
 /* 
 【機能】
 書籍の入荷数を指定する。確定ボタンを押すことで確認画面へ入荷個数を引き継いで遷移す
@@ -9,17 +10,12 @@
 最大在庫数を超える数は入力できません：現在の在庫数と入荷の個数を足した値が最大在庫数を超えている
 数値以外が入力されています：入力された値に数字以外の文字が含まれている
 */
-
-/*
- * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
- * 一致した場合はif文の中に入る。
- */
-if (/* ①.の処理を行う */) {
-	//②セッションを開始する
+if(session_start()==PHP_SESSION_NONE){
+	session_start();
 }
 
-
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
+
 if (/* ③の処理を書く */){
 	//④SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑤ログイン画面へ遷移する。
@@ -103,16 +99,17 @@ function getId($id,$con){
 						</tr>
 					</thead>
 					<?php 
-					/*
-					 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
-					 */
+
+					$books = $_POST['books'];
+					
     				foreach(/* ⑮の処理を書く */){
-						dbh = getId($books);
+						$dbh = getId($books);
 					?>
 					<input type="hidden" value="<?php echo 	$column = $books->getId();?>" name="books[]">
 					<tr>
 						<td><?php echo	$column["ID"];?></td>
 						<td><?php echo	$column["title"];?></td>
+						
 						<td><?php echo	$column["author"];?></td>
 						<td><?php echo	$column["salesDate"];?></td>
 						<td><?php echo	$column["price"];?></td>

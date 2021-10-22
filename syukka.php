@@ -9,12 +9,9 @@
 出荷する個数が在庫数を超えています：出荷したい個数が在庫数を超えている
 数値以外が入力されています：入力された値に数字以外の文字が含まれている
 */
-/*
- * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
- * 一致した場合はif文の中に入る。
- */
-if (/* ①の処理を行う */) {
-	//②セッションを開始する
+
+if(session_start()==PHP_SESSION_NONE){
+	session_start();
 }
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
