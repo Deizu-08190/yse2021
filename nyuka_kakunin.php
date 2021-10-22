@@ -129,12 +129,12 @@ if(/* ㉓の処理を書く */){
 							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
 						?>
 						<tr>
-							<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */;?></td>
-							<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */;?></td>
-							<td><?php echo	/* ㊱ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */;?></td>
+							<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 *//*$変数*/['title'];?></td>
+							<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */['stock'];?></td>
+							<td><?php echo	/* ㊱ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */ = $_POST['stock'];;?></td>
 						</tr>
 						<input type="hidden" name="books[]" value="<?php echo /* ㊲ ㉝で取得した値を設定する */; ?>">
-						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
+						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */　= $_POST['stock'];?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
 							$shoseki++;

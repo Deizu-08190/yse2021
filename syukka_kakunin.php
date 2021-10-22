@@ -135,7 +135,8 @@ if(/* ㉓の処理を書く */){
 					$shoseki = 0;
 
 					//㉝POSTの「books」から値を取得し、変数に設定する。
-					foreach(/* ㉝の処理を書く */){
+					$books = $_POST['books'];
+					foreach($books as $book){
 						//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
 						$bookInfo=getById($shoseki,$pdo);
 					?>
