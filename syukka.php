@@ -96,6 +96,7 @@ function getId($id,$con){
 				/*
 				 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
 				 */
+				$books = $_POST['books'];
 				foreach($books as $book){
 					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
 					$bookId = getId($book,/*DBの接続情報.*/);
