@@ -14,10 +14,15 @@
 //⑥セッションを開始する
 session_start();
 
-//①名前とパスワードを入れる変数を初期化する
+$msg = 'ユーザーIDとパスワードを入力してください';
 
-$userid[] = 'yse';		// ユーザーID
-$password[] = '2021';		// パスワード
+//①名前とパスワードを入れる変数を初期化する
+$userid = NULL;		// ユーザーID
+$password = NULL;		// パスワード
+
+// ユーザーの登録情報
+$username = 'yse';
+$userpass = '2021';
 
 /*
  * ②ログインボタンが押されたかを判定する。
@@ -28,10 +33,14 @@ if (isset($_POST['decision'])) {		// ②の処理
 	 * ③名前とパスワードが両方とも入力されているかを判定する。
 	 * 入力されていた場合はif文の中の処理を行う。
 	 */
-	if (isset($_POST['name']) && isset($_post['pass'])) {  // ③の処理
+	if (!empty($_POST['name']) && !empty($_POST['pass'])) {  // ③の処理
 		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
 		$userid = $_POST['name'];
 		$password = $_POST['pass'];
+
+		$_POST['name'] = NULL;
+		$_POST['pass'] = NULL;
+
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
 		$error_msg = '名前かパスワードが未入力です';
@@ -39,9 +48,9 @@ if (isset($_POST['decision'])) {		// ②の処理
 }
 
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
-if (isset($_POST['name'])) {		// ⑦の処理
+if (!empty($userid)) {		// ⑦の処理
 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
-	if ($userid == yse && $password == 2021){
+	if ($userid == $username && $password == $userpass){
 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
 		$_SESSION['name'] = $userid;
 		//$_SESSION['pass'] = $password;
@@ -49,7 +58,7 @@ if (isset($_POST['name'])) {		// ⑦の処理
 		$_SESSION['login'] = true;
 
 		//⑩在庫一覧画面へ遷移する
-		header('Location: http://localhost/zaiko_ichiran.php');		// ←URL間違いは後日再確認
+		header('Location: http://localhost/zaiko_ichiran.php');		// ←URL間違っている場合は後日再確認
 		exit();
 	}else{
 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
@@ -81,10 +90,12 @@ if (isset($_SESSION['error2'])) {		// ⑫の処理
 		<h1>ログイン</h1>
 		<?php
 		//⑮エラーメッセージの変数に入っている値を表示する
-		echo "<div id='error'>", /* ⑮の変数を書く */, "</div>";
-		
+		if(isset($error_msg)){
+		echo "<div id='error'>", $error_msg, "</div>";
+		}
+
 		//⑯メッセージの変数に入っている値を表示する
-		echo "<div id='msg'>", /* ⑯の変数を書く */, "</div>";
+		echo "<div id='msg'>", $msg, "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>
