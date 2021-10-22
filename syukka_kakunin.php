@@ -11,17 +11,17 @@
 //①セッションを開始する
 session_start();
 
-function getByid($id,$con){
+function getById($id,$con){
 	/* 
 	 * ②書籍を取得するSQLを作成する実行する。
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
 	$sql = "SELECT * FROM books WHERE id =" .$id;
-	$result = $con->query($sql); 
+	$bookInfo = $con->query($sql); 
 	
 	//③実行した結果から1レコード取得し、returnで値を返す。
-	return $result->fetch(PDO::FETCH_ASSOC);
+	return $bookInfo->fetch(PDO::FETCH_ASSOC);
 }
 
 function updateByid($id,$con,$total){
@@ -36,8 +36,8 @@ function updateByid($id,$con,$total){
 	//$stmt->excute($total);
 
 	$sql = "SELECT * FROM books WHERE id =" .$id;
-	$result = $con->query($sql);
-	$total = $result->rowCount();
+	$bookInfo = $con->query($sql);
+	$total = $bookInfo->rowCount();
 
 	
 }
@@ -137,14 +137,15 @@ if(/* ㉓の処理を書く */){
 					//㉝POSTの「books」から値を取得し、変数に設定する。
 					foreach(/* ㉝の処理を書く */){
 						//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+						$bookInfo=getById($shoseki,$pdo);
 					?>
-					<tr>
-						<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */;?></td>
-						<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */;?></td>
-						<td><?php echo	/* ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */;?></td>
+					<tr/>
+						<td><?php echo	$bookInfo.title;?></td> //㉟ ㉞で取得した書籍情報からtitleを表示
+						<td><?php echo	$bookInfo.stock;?></td> //㊱ ㉞で取得した書籍情報からstockを表示
+						<td><?php echo	$_POST['stock'][$shoseki];?></td> //㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。
 					</tr>
-					<input type="hidden" name="books[]" value="<?php echo /* ㊳ ㉝で取得した値を設定する */;?>">
-					<input type="hidden" name="stock[]" value='<?php echo /* ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
+					<input type="hidden" name="books[]" value="<?php echo $book;?>"> // ㊳ ㉝で取得した値を設定する
+					<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$shoseki];?>'> // ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。
 					<?php
 						//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
 						$shoseki++;
