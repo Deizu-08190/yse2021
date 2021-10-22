@@ -34,9 +34,11 @@ function updateByid($id,$con,$total){
 }
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 
-if (/* ⑤の処理を書く */){
+if ($_SESSION['login'] = false){  //⑤の処理
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
+	$_SESSION['error2'] = 'ログインしてください';
 	//⑦ログイン画面へ遷移する。
+	header('Location http://localhost/login.php');
 }
 //⑧データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
