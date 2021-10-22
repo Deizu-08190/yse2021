@@ -24,8 +24,10 @@ if (/* ③の処理を書く */){
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
+$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
 
 //⑦データベースで使用する文字コードを「UTF8」にする
+mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(/* ⑧の処理を行う */){
@@ -39,8 +41,11 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
+	$stmt = $pdo->prepare("SELECT * FROM getId WHERE id = :id");
 
+	
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
+	return 1;
 }
 ?>
 <!DOCTYPE html>
@@ -96,13 +101,16 @@ function getId($id,$con){
 				/*
 				 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
 				 */
+
 				$books = $_POST['books'];
 				foreach($books as $book){
+          
 					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
 					$bookId = getId($book,/*DBの接続情報.*/);
 				?>
 				<input type="hidden" value="<?php echo	$bookId['id'];?>" name="books[]">
 				<tr>
+
 					<td><?php echo	$bookId['id'];?></td>
 					<td><?php echo	$bookId['title'];?></td>
 					<td><?php echo	$bookId['author'];?></td>
