@@ -31,7 +31,7 @@ $pdo = new PDO('mysq1: dbname=データベース名;host=ホスト名;','ユー�
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-if(/* ⑧の処理を行う */){
+if( isset($_POST["books"])/* ⑧の処理を行う */){
 	//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
 	//⑩在庫一覧画面へ遷移する。
 }
