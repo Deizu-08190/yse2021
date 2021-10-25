@@ -8,9 +8,12 @@ session_start();
 //②セッションを削除する。
 session_destroy();
 //③ログイン画面へ遷移する。
-//以下html文のhrefにて処理
+header('Location: http://localhost/logout.php');
+
 ?>
 
+<!--以下html文のhrefの処理の場合はログアウト後のページを表示させてから任意でログイン画面へ遷移させる-->
+<!--
 <!DOCTYPE html>
 <html lang="ja">
 	<head>
@@ -25,3 +28,4 @@ session_destroy();
 		<p><a href = 'login.php'>ログインページに戻る</a></p>
 	</body>
 </html>
+-->
