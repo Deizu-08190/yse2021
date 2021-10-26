@@ -49,7 +49,7 @@ if (!$_SESSION['login']){
 	$_SESSION['error2']='ログインしてください';
 
 	//⑦ログイン画面へ遷移する。
-	header('Location: http://localhost/login.php');
+	header('Location: ./login.php');
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
