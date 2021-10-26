@@ -23,7 +23,7 @@ if ($_SESSION['login'] = false){  /* ③の処理を書く */
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
+$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','root',"neko1123");
 
 //⑦データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
@@ -42,11 +42,13 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-	$stmt = $pdo->prepare("SELECT * FROM getId WHERE id = :id");
+	$sql=$con->prepare("SELECT * FROM books WHERE id =:id");
+	$con->bindParam(':id',$total,PDO::PARAM_INT);
+	$sql->execute(); 
 
 	
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
-	return 1;
+	return $sql->fetch(PDO::FETCH_ASSOC);
 }
 ?>
 <!DOCTYPE html>
