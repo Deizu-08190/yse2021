@@ -41,7 +41,13 @@ if ($_SESSION['login'] == false){  //⑤の処理
 	header('Location http://localhost/login.php');
 }
 //⑧データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
+$db_name = "zaiko2021_yse";
+$db_host = "localhost";
+$db_port = "3306";
+$db_user = "zaiko2021_yse";
+$db_password = "2021zaiko";
+$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
+$pdo = new PDO($dsn,$db_user,$db_password);
 
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
