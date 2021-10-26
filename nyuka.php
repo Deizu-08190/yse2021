@@ -79,11 +79,11 @@ function getId($id,$con){
 			<div id="error">
 			<?php
 			/*
-			 * ⑬SESSIONの「error」にメッセージが設定されているかを判定する。
+			 * ⑬SESSIONの「error」にメッセージが設定されているかを判定する。/
 			 * 設定されていた場合はif文の中に入る。
 			 */ 
-			if(isset($_SESSION['error'])/* ⑬の処理を書く */){
-				echo $_SESSION['error'];//⑭SESSIONの「error」の中身を表示する。
+			if(isset($_SESSION['error'])/* ⑬の処理を書く */){/
+				echo $_SESSION['error'];//⑭SESSIONの「error」の中身を表示する。/
 			}
 			?>
 			</div>
