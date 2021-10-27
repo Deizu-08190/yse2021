@@ -28,7 +28,7 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-	$aql=$con->prepare('SELECT * FROM books WHERE id=:id');
+	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
 	$con->bindParam(':total',$total,PDO::PARAM_INT);
 	$sql->execute();
 }
