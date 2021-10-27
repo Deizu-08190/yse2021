@@ -36,11 +36,10 @@ function updateById($id,$con,$total){
 	//$total = array(':stock');
 	//$stmt->excute($total);
 
-	$sql=$con->prepare("SELECT * FROM books WHERE id =:id");
-	$con->bindParam(':id',$total,PDO::PARAM_INT);
+	$sql=$con->prepare("UPDATE books SET stock = :stock WHERE id = :id ");
+	$con->bindParam(':stock',$total,PDO::PARAM_INT);
+	$con->bindParam(':id',$id,PDO::PARAM_INT);
 	$sql->execute();
-	
-	$total=$sql->fetch_All(FETCH_ASSOC);
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
@@ -124,10 +123,14 @@ if(isset($_POST['add']&&$_POST['add']=='ok')){
 		updateById($book.id,$pdo,$remainder);
 		
 		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
+		$count++;
 	}
 
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
+	$_SESSION['success']='入荷が完了しました';
+
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
+	header('Location: ./zaiko_ichiran.php');
 }
 ?>
 <!DOCTYPE html>
