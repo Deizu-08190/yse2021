@@ -43,7 +43,7 @@ function getId($id,$con){
 	 * SQLの実行結果を変数に保存する。
 	 */
 	$sql=$con->prepare("SELECT * FROM books WHERE id =:id");
-	$con->bindParam(':id',$total,PDO::PARAM_INT);
+	$con->bindParam(':id',$id,PDO::PARAM_INT);
 	$sql->execute(); 
 
 	
