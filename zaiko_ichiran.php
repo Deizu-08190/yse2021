@@ -22,8 +22,8 @@ if($_SESSION['login']=false){
 }
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
-$user='root';
-$password='0819';
+$user='zaiko2021_yse';
+$password='2021zaiko';
 //⑤データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO($dsn,$user,$password);
 //$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
@@ -108,7 +108,7 @@ $result=$query->fetchAll();
 							echo "<td id='title'>{$record['title']}</td>";
 							echo "<td id='author'>{$record['author']}</td>";
 							echo "<td id='date'>{$record['salesDate']}</td>";
-							echo"<td id='price'>{$record['price']}</td>";
+							echo "<td id='price'> {$record['price']} </td>";
 							echo "<td id='price'> {$record['stock']} </td>";
 
 							echo "</tr>";
