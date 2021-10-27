@@ -80,7 +80,7 @@ if (!empty($_POST['books'])) {
 		}
 
 		//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
-		$bookInfo = getById($book->id, $pdo);
+		$bookInfo = getById($book, $pdo);
 
 		//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
 		$remainder = $bookInfo->stock - $_POST['stock'][$count];
@@ -116,13 +116,13 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 
 		foreach ($books as $book) {
 			//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
-			$bookInfo = getById($book->id, $pdo);
+			$bookInfo = getById($book, $pdo);
 
 			//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
 			$remainder = $bookInfo->stock - $_POST['stock'][$count];
 
 			//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
-			updateById($book->id, $pdo, $remainder);
+			updateById($book, $pdo, $remainder);
 
 			//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
 			$count++;
