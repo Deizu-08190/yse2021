@@ -22,8 +22,8 @@ if($_SESSION['login']=false){
 }
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
-$user='zaiko2021_yse';
-$password='2021zaiko';
+$user='root';
+$password='0819';
 //⑤データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO($dsn,$user,$password);
 //$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
@@ -98,8 +98,6 @@ $result=$query->fetchAll();
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
 						foreach($result as $record){
-							//var_dump($record);
-
 							//⑪extract変数を使用し、1レコードのデータを渡す。
 							$records = extract($record);
 
