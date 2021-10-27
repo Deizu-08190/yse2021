@@ -174,12 +174,12 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 								$bookInfo = getById($shoseki, $pdo);
 						?>
 								<tr />
-								<td><?php echo $bookInfo->title; ?></td> //㉟ ㉞で取得した書籍情報からtitleを表示
-								<td><?php echo $bookInfo->stock; ?></td> //㊱ ㉞で取得した書籍情報からstockを表示
-								<td><?php echo $_POST['stock'][$shoseki]; ?></td> //㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。
+								<td><?php echo $bookInfo->title; ?></td> <!-- ㉟ ㉞で取得した書籍情報からtitleを表示 -->
+								<td><?php echo $bookInfo->stock; ?></td> <!-- ㊱ ㉞で取得した書籍情報からstockを表示 -->
+								<td><?php echo $_POST['stock'][$shoseki]; ?></td> <!-- ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 -->
 								</tr>
-								<input type="hidden" name="books[]" value="<?php echo $book; ?>"> // ㊳ ㉝で取得した値を設定する
-								<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$shoseki]; ?>'> // ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。
+								<input type="hidden" name="books[]" value="<?php echo $book; ?>"> <!-- ㊳ ㉝で取得した値を設定する -->
+								<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$shoseki]; ?>'> <!-- ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。-->
 						<?php
 								//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
 								$shoseki++;
