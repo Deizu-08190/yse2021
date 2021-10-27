@@ -22,8 +22,8 @@ if($_SESSION['login']=false){
 }
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
-$user='zaiko2021_yse';
-$password='2021zaiko';
+$user='root';
+$password='0819';
 //⑤データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO($dsn,$user,$password);
 //$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
@@ -85,6 +85,7 @@ $result=$query->fetchAll();
 				<table>
 					<thead>
 						<tr>
+							<th id="check"></th>
 							<th id="id">ID</th>
 							<th id="book_name">書籍名</th>
 							<th id="author">著者名</th>
@@ -97,13 +98,11 @@ $result=$query->fetchAll();
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
 						foreach($result as $record){
-							//var_dump($record);
-
 							//⑪extract変数を使用し、1レコードのデータを渡す。
 							$records = extract($record);
 
 							echo "<tr id='book'>";
-							//echo "<td id='check'><input type='checkbox' name='books[]'value=".."></td>";
+							echo "<td id='check'><input type='checkbox' name='books[]'value=".$record['id']."></td>";
 							echo "<td id='id'>{$record['id']}</td>";
 							echo "<td id='title'>{$record['title']}</td>";
 							echo "<td id='author'>{$record['author']}</td>";
