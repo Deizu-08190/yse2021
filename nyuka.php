@@ -19,9 +19,9 @@ if (session_start()==PHP_SESSION_NONE)/* ①.の処理を行う */) {
 }
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if ($_SESSION['login'] = false/* ③の処理を書く */){
-	$_SESSION['error2'] = 'ログインしてください';//④SESSIONの「error2」に「ログインしてください」と設定する。
-	header('Location http://localhost/login.php');//⑤ログイン画面へ遷移する。
+if ($_SESSION['login'] = false)	{/* ③の処理を書く */
+	$_SESSION['error2'] = 'ログインしてください';	//④SESSIONの「error2」に「ログインしてください」と設定する。
+	header("Location: http://localhost/login.php");	//⑤ログイン画面へ遷移する。
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
@@ -33,7 +33,7 @@ mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if( isset($_POST["books"])/* ⑧の処理を行う */){
 	$_SESSION['success'] = '入荷する商品が選択されていません';//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
-	header('Location: http://localhost/zaiko_ichiran.php');//⑩在庫一覧画面へ遷移する。
+	header("Location: http://localhost/zaiko_ichiran.php");//⑩在庫一覧画面へ遷移する。
 }
 
 function getId($id,$con){
