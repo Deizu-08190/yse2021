@@ -85,6 +85,7 @@ $result=$query->fetchAll();
 				<table>
 					<thead>
 						<tr>
+							<th id="check"></th>
 							<th id="id">ID</th>
 							<th id="book_name">書籍名</th>
 							<th id="author">著者名</th>
@@ -103,7 +104,7 @@ $result=$query->fetchAll();
 							$records = extract($record);
 
 							echo "<tr id='book'>";
-							//echo "<td id='check'><input type='checkbox' name='books[]'value=".."></td>";
+							echo "<td id='check'><input type='checkbox' name='books[]'value=".$record['id']."></td>";
 							echo "<td id='id'>{$record['id']}</td>";
 							echo "<td id='title'>{$record['title']}</td>";
 							echo "<td id='author'>{$record['author']}</td>";
