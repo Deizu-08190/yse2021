@@ -59,8 +59,9 @@ mb_convert_encoding("Shift_JIS", "utf-8", "sjis-win");
 $count = 0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
-if (isset($_POST['books'])) {
+if (!empty($_POST['books'])) {
 	$books = $_POST['books'];
+
 	foreach ($books as $book) {
 		/*
 		 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
@@ -79,10 +80,10 @@ if (isset($_POST['books'])) {
 		}
 
 		//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
-		$bookInfo = getById($book . id, $pdo);
+		$bookInfo = getById($book->id, $pdo);
 
 		//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-		$remainder = $bookInfo . stock - $_POST['stock'][$count];
+		$remainder = $bookInfo->stock - $_POST['stock'][$count];
 
 		//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
 		if ($remainder < 0) {
@@ -110,8 +111,9 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 	$count = 0;
 
 	//㉕POSTの「books」から値を取得し、変数に設定する。
-	if (isset($_POST['books'])) {
+	if (!empty($_POST['books'])) {
 		$books = $_POST['books'];
+
 		foreach ($books as $book) {
 			//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
 			$bookInfo = getById($book->id, $pdo);
@@ -164,8 +166,9 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 						$shoseki = 0;
 
 						//㉝POSTの「books」から値を取得し、変数に設定する。
-						if (isset($_POST['books'])) {
+						if (!empty($_POST['books'])) {
 							$books = $_POST['books'];
+
 							foreach ($books as $book) {
 								//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
 								$bookInfo = getById($shoseki, $pdo);
