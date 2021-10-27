@@ -85,7 +85,6 @@ $result=$query->fetchAll();
 				<table>
 					<thead>
 						<tr>
-							<th id="check"></th>
 							<th id="id">ID</th>
 							<th id="book_name">書籍名</th>
 							<th id="author">著者名</th>
@@ -109,6 +108,7 @@ $result=$query->fetchAll();
 							echo "<td id='title'>{$record['title']}</td>";
 							echo "<td id='author'>{$record['author']}</td>";
 							echo "<td id='date'>{$record['salesDate']}</td>";
+							echo"<td id='price'>{$record['price']}</td>";
 							echo "<td id='price'> {$record['stock']} </td>";
 
 							echo "</tr>";
