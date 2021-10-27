@@ -173,10 +173,10 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 								//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
 								$bookInfo = getById($shoseki, $pdo);
 						?>
-								<tr />
-								<td><?php echo $bookInfo->title; ?></td> <!-- ㉟ ㉞で取得した書籍情報からtitleを表示 -->
-								<td><?php echo $bookInfo->stock; ?></td> <!-- ㊱ ㉞で取得した書籍情報からstockを表示 -->
-								<td><?php echo $_POST['stock'][$shoseki]; ?></td> <!-- ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 -->
+								<tr>
+									<td><?php echo $bookInfo->title; ?></td> <!-- ㉟ ㉞で取得した書籍情報からtitleを表示 -->
+									<td><?php echo $bookInfo->stock; ?></td> <!-- ㊱ ㉞で取得した書籍情報からstockを表示 -->
+									<td><?php echo $_POST['stock'][$shoseki]; ?></td> <!-- ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 -->
 								</tr>
 								<input type="hidden" name="books[]" value="<?php echo $book; ?>"> <!-- ㊳ ㉝で取得した値を設定する -->
 								<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$shoseki]; ?>'> <!-- ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。-->
