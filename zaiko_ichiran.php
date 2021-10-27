@@ -108,6 +108,7 @@ $result=$query->fetchAll();
 							echo "<td id='title'>{$record['title']}</td>";
 							echo "<td id='author'>{$record['author']}</td>";
 							echo "<td id='date'>{$record['salesDate']}</td>";
+							echo "<td id='price'> {$record['price']} </td>";
 							echo "<td id='price'> {$record['stock']} </td>";
 
 							echo "</tr>";
