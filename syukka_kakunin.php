@@ -19,7 +19,7 @@ function getById($id, $con)
 	 * SQLの実行結果を変数に保存する。
 	 */
 	$sql = $con->prepare("SELECT * FROM books WHERE id =:id");
-	$con->bindParam(':id', $id, PDO::PARAM_INT);
+	$sql->bindParam(':id', $id, PDO::PARAM_INT);
 	$sql->execute();
 
 	//③実行した結果から1レコード取得し、returnで値を返す。
@@ -35,8 +35,8 @@ function updateById($id, $con, $total)
 	 */
 
 	$sql = $con->prepare("UPDATE books SET stock = :stock WHERE id = :id ");
-	$con->bindParam(':stock', $total, PDO::PARAM_INT);
-	$con->bindParam(':id', $id, PDO::PARAM_INT);
+	$sql->bindParam(':stock', $total, PDO::PARAM_INT);
+	$sql->bindParam(':id', $id, PDO::PARAM_INT);
 	$sql->execute();
 }
 
@@ -83,7 +83,7 @@ if (!empty($_POST['books'])) {
 		$bookInfo = getById($book, $pdo);
 
 		//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-		$remainder = $bookInfo->stock - $_POST['stock'][$count];
+		$remainder = $bookInfo['stock'] - $_POST['stock'][$count];
 
 		//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
 		if ($remainder < 0) {
@@ -119,7 +119,7 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 			$bookInfo = getById($book, $pdo);
 
 			//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-			$remainder = $bookInfo->stock - $_POST['stock'][$count];
+			$remainder = $bookInfo['stock'] - $_POST['stock'][$count];
 
 			//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
 			updateById($book, $pdo, $remainder);
@@ -170,12 +170,12 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 							$books = $_POST['books'];
 
 							foreach ($books as $book) {
-								//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
-								$bookInfo = getById($shoseki, $pdo);
+								//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉝の処理で取得した値と⑧のDBの接続情報を渡す。
+								$bookInfo = getById($book, $pdo);
 						?>
 								<tr>
-									<td><?php echo $bookInfo->title; ?></td> <!-- ㉟ ㉞で取得した書籍情報からtitleを表示 -->
-									<td><?php echo $bookInfo->stock; ?></td> <!-- ㊱ ㉞で取得した書籍情報からstockを表示 -->
+									<td><?php echo $bookInfo['title']; ?></td> <!-- ㉟ ㉞で取得した書籍情報からtitleを表示 -->
+									<td><?php echo $bookInfo['stock']; ?></td> <!-- ㊱ ㉞で取得した書籍情報からstockを表示 -->
 									<td><?php echo $_POST['stock'][$shoseki]; ?></td> <!-- ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 -->
 								</tr>
 								<input type="hidden" name="books[]" value="<?php echo $book; ?>"> <!-- ㊳ ㉝で取得した値を設定する -->
