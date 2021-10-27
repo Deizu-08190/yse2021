@@ -31,11 +31,7 @@ function updateById($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-	//$sql = "UPDATE books SET stock = :stock WHERE id = :id ";
-	//$stmt = $con->prepare($sql);
-	//$total = array(':stock');
-	//$stmt->excute($total);
-
+	
 	$sql=$con->prepare("UPDATE books SET stock = :stock WHERE id = :id ");
 	$con->bindParam(':stock',$total,PDO::PARAM_INT);
 	$con->bindParam(':id',$id,PDO::PARAM_INT);
