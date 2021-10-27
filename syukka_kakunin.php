@@ -19,7 +19,7 @@ function getById($id, $con)
 	 * SQLの実行結果を変数に保存する。
 	 */
 	$sql = $con->prepare("SELECT * FROM books WHERE id =:id");
-	$con->bindParam(':id', $total, PDO::PARAM_INT);
+	$con->bindParam(':id', $id, PDO::PARAM_INT);
 	$sql->execute();
 
 	//③実行した結果から1レコード取得し、returnで値を返す。
@@ -42,15 +42,15 @@ function updateById($id, $con, $total)
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 if (!$_SESSION['login']) {
-	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
+	// ⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 
-	//⑦ログイン画面へ遷移する。
+	// ⑦ログイン画面へ遷移する。
 	header('Location: ./login.php');
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;', 'ユーザー名', 'パスワード');
+$pdo = new PDO('mysql:host=localhost;dbname=zaiko2021_yse', 'zaiko2021_yse', '2021zaiko');
 
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS", "utf-8", "sjis-win");
@@ -59,45 +59,46 @@ mb_convert_encoding("Shift_JIS", "utf-8", "sjis-win");
 $count = 0;
 
 //⑪POSTの「books」から値を取得し、変数に設定する。
-$books = $_POST['books'];
+if (isset($_POST['books'])) {
+	$books = $_POST['books'];
+	foreach ($books as $book) {
+		/*
+		 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
+		 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
+		 * 半角数字以外の文字が入っていた場合はif文の中に入る。
+		 */
+		if (!is_numeric($_POST['stock'][$count])) {
+			//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
+			$_SESSION['error'] = '数値以外が入力されています';
 
-foreach ($books as $book) {
-	/*
-	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
-	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
-	 * 半角数字以外の文字が入っていた場合はif文の中に入る。
-	 */
-	if (!is_numeric($_POST['stock'][$count])) {
-		//⑬SESSIONの「error」に「数値以外が入力されています」と設定する。
-		$_SESSION['error'] = '数値以外が入力されています';
+			//⑭「include」を使用して「syukka.php」を呼び出す。
+			include('syukka.php');
 
-		//⑭「include」を使用して「syukka.php」を呼び出す。
-		include('syukka.php');
+			//⑮「exit」関数で処理を終了する。
+			exit();
+		}
 
-		//⑮「exit」関数で処理を終了する。
-		exit();
+		//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
+		$bookInfo = getById($book . id, $pdo);
+
+		//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
+		$remainder = $bookInfo . stock - $_POST['stock'][$count];
+
+		//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
+		if ($remainder < 0) {
+			//⑲SESSIONの「error」に「出荷する個数が在庫数を超えています」と設定する。
+			$_SESSION['error'] = '出荷する個数が在庫数を超えています';
+
+			//⑳「include」を使用して「syukka.php」を呼び出す。
+			include('syukka.php');
+
+			//㉑「exit」関数で処理を終了する。
+			exit();
+		}
+
+		//㉒ ⑩で宣言した変数をインクリメントで値を1増やす。
+		$count++;
 	}
-
-	//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
-	$bookInfo = getById($book . id, $pdo);
-
-	//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-	$remainder = $bookInfo . stock - $_POST['stock'][$count];
-
-	//⑱ ⑰の値が0未満か判定する。0未満の場合はif文の中に入る。
-	if ($remainder < 0) {
-		//⑲SESSIONの「error」に「出荷する個数が在庫数を超えています」と設定する。
-		$_SESSION['error'] = '出荷する個数が在庫数を超えています';
-
-		//⑳「include」を使用して「syukka.php」を呼び出す。
-		include('syukka.php');
-
-		//㉑「exit」関数で処理を終了する。
-		exit();
-	}
-
-	//㉒ ⑩で宣言した変数をインクリメントで値を1増やす。
-	$count++;
 }
 
 /*
@@ -109,19 +110,21 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 	$count = 0;
 
 	//㉕POSTの「books」から値を取得し、変数に設定する。
-	$books = $_POST['books'];
-	foreach ($books as $book) {
-		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
-		$bookInfo = getById($book . id, $pdo);
+	if (isset($_POST['books'])) {
+		$books = $_POST['books'];
+		foreach ($books as $book) {
+			//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
+			$bookInfo = getById($book->id, $pdo);
 
-		//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
-		$remainder = $bookInfo . stock - $_POST['stock'][$count];
+			//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出して書籍情報の「stock」から値を引いた値を変数に保存する。
+			$remainder = $bookInfo->stock - $_POST['stock'][$count];
 
-		//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
-		updateById($book . id, $pdo, $remainder);
+			//㉘「updateByid」関数を呼び出す。その際に引数に㉕の処理で取得した値と⑧のDBの接続情報と㉗で計算した値を渡す。
+			updateById($book->id, $pdo, $remainder);
 
-		//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
-		$count++;
+			//㉙ ㉔で宣言した変数をインクリメントで値を1増やす。
+			$count++;
+		}
 	}
 
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
@@ -161,21 +164,23 @@ if (isset($_POST['add']) && $_POST['add'] == 'ok') {
 						$shoseki = 0;
 
 						//㉝POSTの「books」から値を取得し、変数に設定する。
-						$books = $_POST['books'];
-						foreach ($books as $book) {
-							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
-							$bookInfo = getById($shoseki, $pdo);
+						if (isset($_POST['books'])) {
+							$books = $_POST['books'];
+							foreach ($books as $book) {
+								//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+								$bookInfo = getById($shoseki, $pdo);
 						?>
-							<tr />
-							<td><?php echo	$bookInfo . title; ?></td> //㉟ ㉞で取得した書籍情報からtitleを表示
-							<td><?php echo	$bookInfo . stock; ?></td> //㊱ ㉞で取得した書籍情報からstockを表示
-							<td><?php echo	$_POST['stock'][$shoseki]; ?></td> //㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。
-							</tr>
-							<input type="hidden" name="books[]" value="<?php echo $book; ?>"> // ㊳ ㉝で取得した値を設定する
-							<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$shoseki]; ?>'> // ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。
+								<tr />
+								<td><?php echo $bookInfo->title; ?></td> //㉟ ㉞で取得した書籍情報からtitleを表示
+								<td><?php echo $bookInfo->stock; ?></td> //㊱ ㉞で取得した書籍情報からstockを表示
+								<td><?php echo $_POST['stock'][$shoseki]; ?></td> //㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。
+								</tr>
+								<input type="hidden" name="books[]" value="<?php echo $book; ?>"> // ㊳ ㉝で取得した値を設定する
+								<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$shoseki]; ?>'> // ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。
 						<?php
-							//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
-							$shoseki++;
+								//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
+								$shoseki++;
+							}
 						}
 						?>
 					</tbody>
