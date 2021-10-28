@@ -46,6 +46,7 @@ if ($_SESSION['login'] == false){  //⑤の処理
 }
 //⑧データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','zaiko2021_yse',"2021zaiko");
+//$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','root',"2021zaiko");
 
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");

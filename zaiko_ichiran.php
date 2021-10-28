@@ -23,9 +23,10 @@ if($_SESSION['login']=false){
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
 $user='zaiko2021_yse';
+//$user='root';
 $password='2021zaiko';
 //⑤データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO($dsn,'root',$password);
+$pdo = new PDO($dsn,$user,$password);
 //$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
 //mysql：dbname = zaiko2021_yse ; host = localhost ;'、 ' root'、"neko1123"
 //⑥データベースで使用する文字コードを「UTF8」にする
@@ -59,7 +60,7 @@ $result=$query->fetchAll();
 				 * ⑧SESSIONの「success」にメッセージが設定されているかを判定する。
 				 * 設定されていた場合はif文の中に入る。
 				 */ 
-				if($_SESSION['success']/* ⑧の処理を書く */){
+				if(isset($_SESSION['success'])/* ⑧の処理を書く */){
 					//⑨SESSIONの「success」の中身を表示する。
 					echo $_SESSION['success'];
 				}
