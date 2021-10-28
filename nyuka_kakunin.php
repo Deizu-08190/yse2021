@@ -3,7 +3,6 @@
 【機能】
 入荷で入力された個数を表示する。入荷を実行した場合は対象の書籍の在庫数に入荷数を加
 えた数でデータベースの書籍の在庫数を更新する。
-
 【エラー一覧（エラー表示：発生条件）】
 なし
 */
@@ -16,8 +15,10 @@ function getByid($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
-	$sql->execunte();
+	$sql = $con->prepare("SELECT * FROM books WHERE id =:id");
+	$sql->bindParam(':id', $id, PDO::PARAM_INT);
+	$sql->execute();
+
 	//③実行した結果から1レコード取得し、returnで値を返す。
 	return $sql->fetch(PDO::FETCH_ASSOC);
 }
@@ -29,7 +30,7 @@ function updateByid($id,$con,$total){
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
 	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
-	$con->bindParam(':total',$total,PDO::PARAM_INT);
+	$sql->bindParam(':total',$total,PDO::PARAM_INT);
 	$sql->execute();
 }
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
@@ -38,16 +39,10 @@ if ($_SESSION['login'] == false){  //⑤の処理
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 	//⑦ログイン画面へ遷移する。
-	header('Location http://localhost/login.php');
+	header('Location ./login.php');
 }
 //⑧データベースへ接続し、接続情報を変数に保存する
-$db_name = "zaiko2021_yse";
-$db_host = "localhost";
-$db_port = "3306";
-$db_user = "zaiko2021_yse";
-$db_password = "2021zaiko";
-$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
-$pdo = new PDO($dsn,$db_user,$db_password);
+$pdo = new PDO('mysql:host=localhost;dbname=zaiko2021_yse', 'zaiko2021_yse', '2021zaiko');
 
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
@@ -70,7 +65,7 @@ foreach($books as $book){
 		//⑭「include」を使用して「nyuka.php」を呼び出す。
 		include 'nyuka.php';
 		//⑮「exit」関数で処理を終了する。
-		exit('終了します');
+		exit();
 	}
 
 	//⑯「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に⑪の処理で取得した値と⑧のDBの接続情報を渡す。
@@ -86,7 +81,7 @@ foreach($books as $book){
 		//⑳「include」を使用して「nyuka.php」を呼び出す。
 		include 'nyuka.php';
 		//㉑「exit」関数で処理を終了する。
-		exit('終了します');
+		exit();
 	}
 	
 	//㉒ ⑩で宣言した変数をインクリメントで値を1増やす。/
@@ -97,11 +92,12 @@ foreach($books as $book){
  * ㉓POSTでこの画面のボタンの「add」に値が入ってるか確認する。
  * 値が入っている場合は中身に「ok」が設定されていることを確認する。
  */
-if(isset($_POST['add'])){
+if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
 	$bookcnt =0;
 	//㉕POSTの「books」から値を取得し、変数に設定する。
-	foreach($_POST['books'] as $book){
+	$books = $_POST['books'];
+	foreach($books as $book){
 		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
 		$bookId = getByid($book,$pdo);
 		//㉗ ㉖で取得した書籍の情報の「stock」と、㉔の変数を元にPOSTの「stock」から値を取り出し、足した値を変数に保存する。
@@ -115,7 +111,7 @@ if(isset($_POST['add'])){
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
 	$_SESSION['success'] = '入荷が完了しました';
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
-	header('Location http://localhost/zaiko_ichiran.php');
+	header('Location ./zaiko_ichiran.php');
 }
 ?>
 <!DOCTYPE html>
@@ -146,7 +142,7 @@ if(isset($_POST['add'])){
 						$bookcnt = 0;
 
 						//㉝POSTの「books」から値を取得し、変数に設定する。
-						$books = $_POST["books"];
+						$books = $_POST['books'];
 						foreach($books as $book){
 							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
 							$bookId = getByid($bookcnt,$pdo);
@@ -155,10 +151,10 @@ if(isset($_POST['add'])){
 						<tr>
 							<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */$bookId['title'];?></td>
 							<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */$bookId['stock'];?></td>
-							<td><?php echo	/* ㊱ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */$bookcnt = $_POST['stock'];?></td>
+							<td><?php echo	/* ㊱ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */$_POST['stock'][$bookcnt];?></td>
 						</tr>
 						<input type="hidden" name="books[]" value="<?php echo /* ㊲ ㉝で取得した値を設定する */ $book; ?>">
-						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */$bookcnt　= $_POST['stock'];?>'>
+						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */$_POST['stock'][$bookcnt];?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
 							$bookcnt++;
