@@ -25,7 +25,7 @@ $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
 $user='zaiko2021_yse';
 $password='2021zaiko';
 //⑤データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO($dsn,$user,$password);
+$pdo = new PDO($dsn,'root',$password);
 //$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
 //mysql：dbname = zaiko2021_yse ; host = localhost ;'、 ' root'、"neko1123"
 //⑥データベースで使用する文字コードを「UTF8」にする
@@ -70,7 +70,7 @@ $result=$query->fetchAll();
 			<div id="left">
 				<p id="ninsyou_ippan">
 					<?php
-						echo @$_SESSION["account_name"];
+						echo @$_SESSION["name"];
 					?><br>
 					<button type="button" id="logout" onclick="location.href='logout.php'">ログアウト</button>
 				</p>
