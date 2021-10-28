@@ -27,13 +27,14 @@ if ($_SESSION['login'] = false)	{/* ③の処理を書く */
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','zaiko2021_yse',"2021zaiko");
+//$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','zaiko2021_yse',"2021zaiko");
+$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','root',"2021zaiko");
 
 //⑦データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-if( empty($_POST['books'])){/* ⑧の処理を行う */
+if(empty($_POST['books'])){/* ⑧の処理を行う */
 	$_SESSION['success'] = '入荷する商品が選択されていません';//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
 	header("Location: http://localhost/zaiko_ichiran.php");//⑩在庫一覧画面へ遷移する。
 }
