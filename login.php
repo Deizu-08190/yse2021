@@ -14,7 +14,7 @@
 //⑥セッションを開始する
 session_start();
 
-$msg = 'ユーザーIDとパスワードを入力してください';
+//$msg = 'ユーザーIDとパスワードを入力してください';
 
 //①名前とパスワードを入れる変数を初期化する
 $userid = NULL;		// ユーザーID
@@ -96,7 +96,7 @@ if (!empty($_SESSION['error2'])) {		// ⑫の処理
 		}
 
 		//⑯メッセージの変数に入っている値を表示する
-		echo "<div id='msg'>", $msg, "</div>";
+		//echo "<div id='msg'>", $msg, "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>
