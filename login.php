@@ -12,43 +12,72 @@
 	ログインしてください：ログインしていない状態で他のページに遷移した場合(ログイン画面に遷移し上記を表示)
 */
 //⑥セッションを開始する
+session_start();
+
+$msg = 'ユーザーIDとパスワードを入力してください';
 
 //①名前とパスワードを入れる変数を初期化する
+$userid = NULL;		// ユーザーID
+$password = NULL;		// パスワード
+
+// ユーザーの登録情報
+$username = 'yse';
+$userpass = '2021';
 
 /*
  * ②ログインボタンが押されたかを判定する。
  * 押されていた場合はif文の中の処理を行う
  */
-if (/* ②の処理を書く */ ) {
+if (isset($_POST['decision'])) {		// ②の処理
 	/*
 	 * ③名前とパスワードが両方とも入力されているかを判定する。
 	 * 入力されていた場合はif文の中の処理を行う。
 	 */
-	if (/* ③の処理を書く */) {
+	if (!empty($_POST['name']) && !empty($_POST['pass'])) {  // ③の処理
 		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
+		$userid = $_POST['name'];
+		$password = $_POST['pass'];
+
+		$_POST['name'] = NULL;
+		$_POST['pass'] = NULL;
+
 	} else {
 		//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
+		$error_msg = '名前かパスワードが未入力です';
 	}
 }
 
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
-if (/* ⑦の処理を書く */) {
+if (!empty($userid)) {		// ⑦の処理
 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
-	if (/* ⑧の処理を書く */){
+	if ($userid == $username && $password == $userpass){
 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
+		$_SESSION['name'] = $userid;
+		//$_SESSION['pass'] = $password;
+		
+		$_SESSION['login'] = true;
+
 		//⑩在庫一覧画面へ遷移する
-		header(/* ⑩の遷移先を書く */);
+		header('Location: http://localhost/zaiko_ichiran.php');		// ←URL間違っている場合は後日再確認
+		exit();
 	}else{
 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
+		$error_msg = 'ユーザー名かパスワードが間違っています';
 	}
 }
 
+// 以下(仮)
+
 //⑫SESSIONの「error2」に値が入っているか判定する。入っていた場合はif文の中に入る
-if (/* ⑫の処理を書く */) {
+if (!empty($_SESSION['error2'])) {		// ⑫の処理
 	//⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
+	$error_msg = $_SESSION['error2'];
+
 	//⑭SESSIONの「error2」にnullを入れる。
+	$_SESSION['error2'] = NULL;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -61,10 +90,13 @@ if (/* ⑫の処理を書く */) {
 		<h1>ログイン</h1>
 		<?php
 		//⑮エラーメッセージの変数に入っている値を表示する
-		echo "<div id='error'>", /* ⑮の変数を書く */, "</div>";
-		
+		if(isset($error_msg)){
+		echo "<div id='error'>", $error_msg, "</div>";
+		$msg = NULL;
+		}
+
 		//⑯メッセージの変数に入っている値を表示する
-		echo "<div id='msg'>", /* ⑯の変数を書く */, "</div>";
+		echo "<div id='msg'>", $msg, "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>

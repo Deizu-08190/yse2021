@@ -1,4 +1,5 @@
 <?php
+
 /* 
 【機能】
 書籍の入荷数を指定する。確定ボタンを押すことで確認画面へ入荷個数を引き継いで遷移す
@@ -22,6 +23,7 @@ if (session_status()== PHP_SESSION_NONE){/* ①.の処理を行う */
 if ($_SESSION['login'] = false)	{/* ③の処理を書く */
 	$_SESSION['error2'] = 'ログインしてください';	//④SESSIONの「error2」に「ログインしてください」と設定する。
 	header("Location: http://localhost/login.php");	//⑤ログイン画面へ遷移する。
+
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
@@ -84,6 +86,7 @@ function getId($id,$con){
 			 */ 
 			if(isset($_SESSION['error'])){/* ⑬の処理を書く */
 				echo $_SESSION['error'];//⑭SESSIONの「error」の中身を表示する。
+
 			}
 			?>
 			</div>
@@ -110,6 +113,7 @@ function getId($id,$con){
 					?>
 					<input type="hidden" value="<?php echo	$bookId['id']/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 					<tr>
+
 						<td><?php echo	$bookId["id"]/* ⑱ ⑯の戻り値からidを取り出し、表示する */;?></td> 
 						<td><?php echo	$bookId["title"]/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
 						<td><?php echo	$bookId["author"]/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */;?></td>
