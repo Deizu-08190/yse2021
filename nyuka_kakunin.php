@@ -30,12 +30,13 @@ function updateByid($id,$con,$total){
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
 	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
-	$sql->bindParam(':total',$total,PDO::PARAM_INT);
+	$sql->bindParam(':stock', $total, PDO::PARAM_INT);
+	$sql->bindParam(':id', $id, PDO::PARAM_INT);
 	$sql->execute();
 }
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 
-if ($_SESSION['login'] == false){  //⑤の処理
+if ($_SESSION['login'] = false){  //⑤の処理
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 	//⑦ログイン画面へ遷移する。
@@ -49,9 +50,9 @@ mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
 $syosekicnt = 0;
 
-if(isset($param['books'])){
+if (!empty($_POST['books'])) {
 	$books = $_POST['books'];
-	$stocks = $_POST['stock'];
+
 	//⑪POSTの「books」から値を取得し、変数に設定する。
 	foreach($books as $book){
 	/*
@@ -72,7 +73,8 @@ if(isset($param['books'])){
 		$bookId = getByid($book,$pdo);
 
 		//⑰ ⑯で取得した書籍の情報の「stock」と、⑩の変数を元にPOSTの「stock」から値を取り出し、足した値を変数に保存する。
-		$total = $bookId['stock'] + $stocks['syosekicnt'];
+		$total = $bookId['stock'] + $_POST['stock'][$syosekicnt];
+
 
 		//⑱ ⑰の値が100を超えているか判定する。超えていた場合はif文の中に入る。
 		if($total > 100){
@@ -96,7 +98,7 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 	//㉔書籍数をカウントするための変数を宣言し、値を0で初期化する。
 	$bookcnt =0;
 	//㉕POSTの「books」から値を取得し、変数に設定する。
-	if(isset($param['books'])){
+	if (!empty($_POST['books'])) {
 		$books = $_POST['books'];
 		foreach($books as $book){
 		//㉖「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉕の処理で取得した値と⑧のDBの接続情報を渡す。
@@ -112,7 +114,7 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 	//㉚SESSIONの「success」に「入荷が完了しました」と設定する。
 	$_SESSION['success'] = '入荷が完了しました';
 	//㉛「header」関数を使用して在庫一覧画面へ遷移する。
-	header('Location ./zaiko_ichiran.php');
+	header("Location:zaiko_ichiran.php");
 }
 ?>
 <!DOCTYPE html>
@@ -143,17 +145,17 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 						$bookcnt = 0;
 
 						//㉝POSTの「books」から値を取得し、変数に設定する。
-						if(isset($param['books'])){
+						if (!empty($_POST['books'])) {
 							$books = $_POST['books'];
 							foreach($books as $book){
 							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
-							$bookId = getByid($bookcnt,$pdo);
+							$bookId = getByid($book,$pdo);
 								
 						?>
 						<tr>
-							<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */$bookId['title'];?></td>
-							<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */$bookId['stock'];?></td>
-							<td><?php echo	/* ㊱ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */$_POST['stock'][$bookcnt];?></td>
+							<td><?php echo	$bookId['title'];?></td>
+							<td><?php echo	$bookId['stock'];?></td>
+							<td><?php echo	$_POST['stock'][$bookcnt];?></td>
 						</tr>
 						<input type="hidden" name="books[]" value="<?php echo /* ㊲ ㉝で取得した値を設定する */ $book; ?>">
 						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */$_POST['stock'][$bookcnt];?>'>
