@@ -50,8 +50,8 @@ if ($_SESSION['login'] = false) {
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
-//$pdo = new PDO('mysql:host=localhost;dbname=zaiko2021_yse', 'zaiko2021_yse', '2021zaiko');
-$pdo = new PDO('mysql:host=localhost;dbname=zaiko2021_yse', 'root', '2021zaiko');
+$pdo = new PDO('mysql:host=localhost;dbname=zaiko2021_yse', 'zaiko2021_yse', '2021zaiko');
+//$pdo = new PDO('mysql:host=localhost;dbname=zaiko2021_yse', 'root', '2021zaiko');
 
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS", "utf-8", "sjis-win");
