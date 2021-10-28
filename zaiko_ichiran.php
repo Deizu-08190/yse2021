@@ -23,6 +23,7 @@ if($_SESSION['login']=false){
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
 $user='zaiko2021_yse';
+$user='root';
 $password='2021zaiko';
 
 //⑤データベースへ接続し、接続情報を変数に保存する
