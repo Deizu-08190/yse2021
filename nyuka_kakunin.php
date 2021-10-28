@@ -15,12 +15,14 @@ function getByid($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
+
 	$sql = $con->prepare("SELECT * FROM books WHERE id =:id");
 	$sql->bindParam(':id', $id, PDO::PARAM_INT);
 	$sql->execute();
 
 	//③実行した結果から1レコード取得し、returnで値を返す。
 	return $sql->fetch(PDO::FETCH_ASSOC);
+
 }
 
 function updateByid($id,$con,$total){
@@ -30,8 +32,13 @@ function updateByid($id,$con,$total){
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
 	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
+<<<<<<< HEAD
 	$sql->bindParam(':stock', $total, PDO::PARAM_INT);
 	$sql->bindParam(':id', $id, PDO::PARAM_INT);
+=======
+	$sql->bindParam(':total',$total,PDO::PARAM_INT);
+
+>>>>>>> 4b741ec68d69e7d3697de056a82ca65d6c439498
 	$sql->execute();
 }
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
@@ -44,6 +51,7 @@ if ($_SESSION['login'] = false){  //⑤の処理
 }
 //⑧データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','zaiko2021_yse',"2021zaiko");
+
 //⑨データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
@@ -55,6 +63,7 @@ if (!empty($_POST['books'])) {
 
 	//⑪POSTの「books」から値を取得し、変数に設定する。
 	foreach($books as $book){
+
 	/*
 	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
 	 * 半角数字以外の文字が設定されていないかを「is_numeric」関数を使用して確認する。
@@ -142,6 +151,7 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 					<tbody>
 						<?php
 						//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
+
 						$bookcnt = 0;
 
 						//㉝POSTの「books」から値を取得し、変数に設定する。
@@ -149,8 +159,14 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 							$books = $_POST['books'];
 							foreach($books as $book){
 							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+<<<<<<< HEAD
 							$bookId = getByid($book,$pdo);
 								
+=======
+							$bookId = getByid($bookcnt,$pdo);
+             }	
+
+>>>>>>> 4b741ec68d69e7d3697de056a82ca65d6c439498
 						?>
 						<tr>
 							<td><?php echo	$bookId['title'];?></td>
@@ -161,8 +177,10 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 						<input type="hidden" name="stock[]" value='<?php echo /* ㊳POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */$_POST['stock'][$bookcnt];?>'>
 						<?php
 							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
+
 							$bookcnt++;
 							}
+
 						}
 						?>
 					</tbody>
