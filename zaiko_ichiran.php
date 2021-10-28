@@ -22,10 +22,11 @@ if($_SESSION['login']=false){
 }
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
-//$user='zaiko2021_yse';
+$user='zaiko2021_yse';
 $password='2021zaiko';
+
 //⑤データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO($dsn,'root',$password);
+$pdo = new PDO($dsn,$user,$password);
 //⑥データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
@@ -105,7 +106,6 @@ $result=$query->fetchAll();
 							echo "<td id='date'>{$record['salesDate']}</td>";
 							echo "<td id='price'> {$record['price']} </td>";
 							echo "<td id='price'> {$record['stock']} </td>";
-
 							echo "</tr>";
 						}
 						?>
