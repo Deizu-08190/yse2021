@@ -32,13 +32,9 @@ function updateByid($id,$con,$total){
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
 	$sql=$con->prepare('SELECT * FROM books WHERE id=:id');
-<<<<<<< HEAD
 	$sql->bindParam(':stock', $total, PDO::PARAM_INT);
 	$sql->bindParam(':id', $id, PDO::PARAM_INT);
-=======
-	$sql->bindParam(':total',$total,PDO::PARAM_INT);
 
->>>>>>> 4b741ec68d69e7d3697de056a82ca65d6c439498
 	$sql->execute();
 }
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
@@ -159,14 +155,8 @@ if(isset($_POST['add']) && $_POST['add'] == 'ok'){
 							$books = $_POST['books'];
 							foreach($books as $book){
 							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
-<<<<<<< HEAD
 							$bookId = getByid($book,$pdo);
-								
-=======
-							$bookId = getByid($bookcnt,$pdo);
-             }	
-
->>>>>>> 4b741ec68d69e7d3697de056a82ca65d6c439498
+						
 						?>
 						<tr>
 							<td><?php echo	$bookId['title'];?></td>
