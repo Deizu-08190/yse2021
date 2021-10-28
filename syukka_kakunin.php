@@ -41,7 +41,7 @@ function updateById($id, $con, $total)
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (!$_SESSION['login']) {
+if ($_SESSION['login'] = false) {
 	// ⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 
