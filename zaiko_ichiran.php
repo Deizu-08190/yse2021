@@ -27,8 +27,6 @@ $user='zaiko2021_yse';
 $password='2021zaiko';
 //⑤データベースへ接続し、接続情報を変数に保存する
 $pdo = new PDO($dsn,$user,$password);
-//$pdo = new PDO('mysq1:dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
-//mysql：dbname = zaiko2021_yse ; host = localhost ;'、 ' root'、"neko1123"
 //⑥データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
@@ -37,7 +35,6 @@ mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 $query=$pdo->prepare('SELECT * FROM books');
 $query->execute();
 $result=$query->fetchAll();
-
 
 ?>
 <!DOCTYPE html>
