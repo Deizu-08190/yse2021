@@ -29,7 +29,7 @@ $pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','zaiko2021_yse',"202
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-if(empty($book)){  /* ⑧の処理を行う */
+if(empty($_POST['books'])){  /* ⑧の処理を行う */
 	//⑨SESSIONの「success」に「出荷する商品が選択されていません」と設定する。
 	$_SESSION['success'] = '出荷する商品が選択されていません';
 	//⑩在庫一覧画面へ遷移する。
@@ -43,7 +43,7 @@ function getId($id,$con){
 	 * SQLの実行結果を変数に保存する。
 	 */
 	$sql=$con->prepare("SELECT * FROM books WHERE id =:id");
-	$con->bindParam(':id',$id,PDO::PARAM_INT);
+	$sql->bindParam(':id',$id,PDO::PARAM_INT);
 	$sql->execute(); 
 
 	
