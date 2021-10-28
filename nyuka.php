@@ -106,7 +106,7 @@ function getId($id,$con){
 					 */
 					$books = $_POST['books'];
     				foreach($books as $book/* ⑮の処理を書く */){
-    					$dbh = getId($books);// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
+    					$dbh = getId($book,$pdo );// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
 					?>
 					<input type="hidden" value="<?php echo	$column = $books->getId()/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 					<tr>
