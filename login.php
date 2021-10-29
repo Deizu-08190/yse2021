@@ -14,7 +14,7 @@
 //⑥セッションを開始する
 session_start();
 
-$msg = 'ユーザーIDとパスワードを入力してください';
+//$msg = 'ユーザーIDとパスワードを入力してください';
 
 //①名前とパスワードを入れる変数を初期化する
 $userid = NULL;		// ユーザーID
@@ -58,7 +58,7 @@ if (!empty($userid)) {		// ⑦の処理
 		$_SESSION['login'] = true;
 
 		//⑩在庫一覧画面へ遷移する
-		header('Location: http://localhost/zaiko_ichiran.php');		// ←URL間違っている場合は後日再確認
+		header('Location:  ./zaiko_ichiran.php');		// ←URL間違っている場合は後日再確認
 		exit();
 	}else{
 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
@@ -69,7 +69,7 @@ if (!empty($userid)) {		// ⑦の処理
 // 以下(仮)
 
 //⑫SESSIONの「error2」に値が入っているか判定する。入っていた場合はif文の中に入る
-if (isset($_SESSION['error2'])) {		// ⑫の処理
+if (!empty($_SESSION['error2'])) {		// ⑫の処理
 	//⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
 	$error_msg = $_SESSION['error2'];
 
@@ -92,10 +92,11 @@ if (isset($_SESSION['error2'])) {		// ⑫の処理
 		//⑮エラーメッセージの変数に入っている値を表示する
 		if(isset($error_msg)){
 		echo "<div id='error'>", $error_msg, "</div>";
+		$msg = NULL;
 		}
 
 		//⑯メッセージの変数に入っている値を表示する
-		echo "<div id='msg'>", $msg, "</div>";
+		//echo "<div id='msg'>", $msg, "</div>";
 		?>
 		<form action="login.php" method="post" id="log">
 			<p>

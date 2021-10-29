@@ -10,27 +10,33 @@
 最大在庫数を超える数は入力できません：現在の在庫数と入荷の個数を足した値が最大在庫数を超えている
 数値以外が入力されています：入力された値に数字以外の文字が含まれている
 */
-if(session_start()==PHP_SESSION_NONE){
-	session_start();
+
+/*
+ * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
+ * 一致した場合はif文の中に入る。
+ */
+if (session_status()== PHP_SESSION_NONE){/* ①.の処理を行う */ 	
+	session_start();//②セッションを開始する
 }
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-
-if (/* ③の処理を書く */){
-	//④SESSIONの「error2」に「ログインしてください」と設定する。
-	//⑤ログイン画面へ遷移する。
+if (!$_SESSION['login'])	{/* ③の処理を書く */
+	$_SESSION['error2'] = 'ログインしてください';	//④SESSIONの「error2」に「ログインしてください」と設定する。
+	header("Location: ./login.php");	//⑤ログイン画面へ遷移する。
+	exit();
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
-$pdo = new PDO('mysq1: dbname=データベース名;host=ホスト名;','ユーザー名','パスワード');
+$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','zaiko2021_yse',"2021zaiko");
+//$pdo = new PDO('mysql:dbname=zaiko2021_yse;host=localhost;','root',"2021zaiko");
 
 //⑦データベースで使用する文字コードを「UTF8」にする
 mb_convert_encoding("Shift_JIS","utf-8","sjis-win");
 
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-if(/* ⑧の処理を行う */){
-	//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
-	//⑩在庫一覧画面へ遷移する。
+if(empty($_POST['books'])){/* ⑧の処理を行う */
+	$_SESSION['success'] = '入荷する商品が選択されていません';//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
+	header("Location: ./zaiko_ichiran.php");//⑩在庫一覧画面へ遷移する。
 }
 
 function getId($id,$con){
@@ -39,12 +45,12 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-	$query=$con->prepare('SELECT * FROM books WHERE id=:id');
-	$con->bindValue(':id',$id,PDO::PARAM_INT);
-	$query->execute();
+	$sql=$con->prepare("SELECT * FROM books WHERE id=:id");
+	$sql->bindValue(':id',$id,PDO::PARAM_INT);
+	$sql->execute();
 	
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
-	return $query->fetch();
+	return $sql->fetch();
 }
 
 ?>
@@ -79,9 +85,9 @@ function getId($id,$con){
 			 * ⑬SESSIONの「error」にメッセージが設定されているかを判定する。
 			 * 設定されていた場合はif文の中に入る。
 			 */ 
-			if(isset($_SESSION['error'])){ //⑬の処理
-				//⑭SESSIONの「error」の中身を表示する。
-				echo $_SESSION['error'];
+			if(isset($_SESSION['error'])){/* ⑬の処理を書く */
+				echo $_SESSION['error'];//⑭SESSIONの「error」の中身を表示する。
+
 			}
 			?>
 			</div>
@@ -99,21 +105,22 @@ function getId($id,$con){
 						</tr>
 					</thead>
 					<?php 
-
+					/*
+					 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
+					 */
 					$books = $_POST['books'];
-					
-    				foreach(/* ⑮の処理を書く */){
-						$dbh = getId($books);
+    				foreach($books as $book){	/* ⑮の処理を書く */
+    					$bookId = getId($book,$pdo);// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
 					?>
-					<input type="hidden" value="<?php echo 	$column = $books->getId();?>" name="books[]">
+					<input type="hidden" value="<?php echo	$bookId['id']/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 					<tr>
-						<td><?php echo	$column["ID"];?></td>
-						<td><?php echo	$column["title"];?></td>
-						
-						<td><?php echo	$column["author"];?></td>
-						<td><?php echo	$column["salesDate"];?></td>
-						<td><?php echo	$column["price"];?></td>
-						<td><?php echo	$column["stock"];?></td>
+
+						<td><?php echo	$bookId["id"]/* ⑱ ⑯の戻り値からidを取り出し、表示する */;?></td> 
+						<td><?php echo	$bookId["title"]/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */;?></td>
+						<td><?php echo	$bookId["author"]/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */;?></td>
+						<td><?php echo	$bookId["salesDate"]/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */;?></td>
+						<td><?php echo	$bookId["price"]/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */;?></td>
+						<td><?php echo	$bookId["stock"]/* ㉓ ⑯の戻り値からstockを取り出し、表示する */;?></td>
 						<td><input type='text' name='stock[]' size='5' maxlength='11' required></td>
 					</tr>
 					<?php
