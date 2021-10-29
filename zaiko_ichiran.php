@@ -14,11 +14,12 @@
 session_start();
 
 //②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if($_SESSION['login']=false){
+if(!$_SESSION['login']){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 	//⑦ログイン画面へ遷移する。
-	header('Location ./login.php');
+	header('Location: ./login.php');
+	exit();
 }
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';
