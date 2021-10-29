@@ -19,7 +19,7 @@ if ($_SESSION['login'] = false){  /* ③の処理を書く */
 	//④SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 	//⑤ログイン画面へ遷移する。
-	header('Location http://localhost/login.php');
+	header('Location  ./login.php');
 }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
@@ -34,7 +34,7 @@ if(empty($_POST['books'])){  /* ⑧の処理を行う */
 	//⑨SESSIONの「success」に「出荷する商品が選択されていません」と設定する。
 	$_SESSION['success'] = '出荷する商品が選択されていません';
 	//⑩在庫一覧画面へ遷移する。
-	header('Location: http://localhost/zaiko_ichiran.php');
+	header('Location: ./zaiko_ichiran.php');
 }
 
 function getId($id,$con){

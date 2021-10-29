@@ -18,7 +18,7 @@ if($_SESSION['login']=false){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
 	$_SESSION['error2'] = 'ログインしてください';
 	//⑦ログイン画面へ遷移する。
-	header('Location http://localhost/login.php');
+	header('Location ./login.php');
 }
 
 $dsn='mysql:dbname=zaiko2021_yse;host=localhost';

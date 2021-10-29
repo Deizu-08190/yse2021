@@ -58,7 +58,7 @@ if (!empty($userid)) {		// ⑦の処理
 		$_SESSION['login'] = true;
 
 		//⑩在庫一覧画面へ遷移する
-		header('Location: http://localhost/zaiko_ichiran.php');		// ←URL間違っている場合は後日再確認
+		header('Location:  ./zaiko_ichiran.php');		// ←URL間違っている場合は後日再確認
 		exit();
 	}else{
 		//⑪名前もしくはパスワードが間違っていた場合は、「ユーザー名かパスワードが間違っています」という文言をメッセージを入れる変数に設定する
