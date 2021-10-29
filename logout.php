@@ -8,7 +8,7 @@ session_start();
 //②セッションを削除する。
 session_destroy();
 //③ログイン画面へ遷移する。
-header('Location: http://localhost/login.php');
+header('Location:  ./login.php');
 
 ?>
 
